@@ -1,4 +1,5 @@
-apiVersion: extensions/v1beta1
+---
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,6 +7,9 @@ metadata:
   name: prometheus-operator
   namespace: monitoring
 spec:
+  selector:
+    matchLabels:
+      k8s-app: prometheus-operator
   replicas: 1
   template:
     metadata:
@@ -16,7 +20,8 @@ spec:
       - args:
         - --kubelet-service=kube-system/kubelet
         - --config-reloader-image=quay.io/coreos/configmap-reload:v0.0.1
-        image: quay.io/coreos/prometheus-operator:v0.17.0
+        - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:v0.20.0
+        image: quay.io/coreos/prometheus-operator:v0.20.0
         name: prometheus-operator
         ports:
         - containerPort: 8080

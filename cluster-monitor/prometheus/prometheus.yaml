@@ -2,12 +2,13 @@
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
+  name: k8s
   namespace: monitoring
   name: prometheus
   labels:
     prometheus: k8s
 spec:
-  replicas: 1
+  replicas: 2
   version: v2.2.0-rc.0
   serviceAccountName: prometheus
   serviceMonitorSelector:
